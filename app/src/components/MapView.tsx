@@ -30,10 +30,14 @@ function FlyTo({ target }: { target: [number, number] | null }) {
     if (!target) return;
     const zoom = Math.max(map.getZoom(), 15);
     // Di ponsel, panel detail menutup bagian bawah peta: geser pusat agar pin tampil di sepertiga atas
+    // Di layar lebar, panel detail (380px) ada di kanan: geser pusat agar pin tampil di sisi kiri panel
     const mobile = window.innerWidth < 900;
-    const center = mobile
-      ? map.unproject(map.project(target, zoom).add([0, map.getSize().y * 0.28]), zoom)
-      : L.latLng(target);
+    const offset: [number, number] = mobile
+      ? [0, map.getSize().y * 0.28]
+      : map.getSize().x > 700
+        ? [200, 0]
+        : [0, 0];
+    const center = map.unproject(map.project(target, zoom).add(offset), zoom);
     map.flyTo(center, zoom, { duration: 0.6 });
   }, [target, map]);
   return null;
