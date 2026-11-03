@@ -48,7 +48,7 @@ export default function Account() {
         <Logo size={36} />
         <div>
           <b>KopiPass Nusantara v0.1.0 (prototipe)</b>
-          <span className="muted small">Ide &amp; pemilik proyek: yudhis7 · Data kedai fiktif · Peta © OpenStreetMap, CARTO</span>
+          <span className="muted small">Ide &amp; pemilik proyek: yudhis7 · Data kedai fiktif · Peta © OpenStreetMap contributors</span>
         </div>
       </div>
     </div>

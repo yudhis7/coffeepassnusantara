@@ -38,7 +38,7 @@ async function newContext(viewport, extra = {}) {
     permissions: ['geolocation'],
     ...extra,
   });
-  if (MOCK) await ctx.route(/basemaps\.cartocdn\.com/, (r) => r.fulfill({ contentType: 'image/png', body: TILE }));
+  if (MOCK) await ctx.route(/tile\.openstreetmap\.org/, (r) => r.fulfill({ contentType: 'image/png', body: TILE }));
   return ctx;
 }
 

@@ -4,6 +4,14 @@ import L from 'leaflet';
 import type { Outlet } from '../data/outlets';
 import { DEFAULT_CENTER } from '../data/outlets';
 
+// Ubin peta. Default: OpenStreetMap standar (tanpa API key, cocok untuk prototipe/uji coba).
+// Untuk produksi, set VITE_TILE_URL (dan VITE_TILE_ATTRIBUTION) ke penyedia berlisensi,
+// mis. MapTiler/Stadia/Google, saat build: VITE_TILE_URL="https://.../{z}/{x}/{y}.png?key=..."
+const TILE_URL = import.meta.env.VITE_TILE_URL || 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const TILE_ATTRIBUTION =
+  import.meta.env.VITE_TILE_ATTRIBUTION ||
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
 // Pin kedai: divIcon berbentuk tetes dengan ikon cangkir (tanpa file gambar eksternal)
 const pinIcon = (active: boolean, open: boolean) =>
   L.divIcon({
@@ -52,12 +60,7 @@ interface Props {
 export default function MapView({ outlets, selectedId, onSelect, userPos, flyTarget }: Props) {
   return (
     <MapContainer center={DEFAULT_CENTER} zoom={14} className="map" zoomControl={false} data-testid="map">
-      <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        subdomains="abcd"
-        maxZoom={19}
-      />
+      <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={19} />
       <InvalidateOnResize />
       <FlyTo target={flyTarget} />
       {userPos && (

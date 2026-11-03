@@ -127,7 +127,7 @@ git tag v0.1.1 && git push origin v0.1.1
 ## Kredit
 
 - **Project Ideation & Lead:** [yudhis7](https://github.com/yudhis7)
-- Peta: © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors, © [CARTO](https://carto.com/attributions)
+- Peta: © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors (ubin standar OSM untuk prototipe; untuk produksi set `VITE_TILE_URL` ke penyedia ubin berlisensi)
 
 ## Lisensi
 

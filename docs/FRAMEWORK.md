@@ -32,7 +32,7 @@ flowchart TB
     subgraph Ext[Pihak ketiga]
         E1[Payment gateway<br/>autodebit + disbursement]
         E2[WhatsApp BSP<br/>OTP + notifikasi]
-        E3[Peta<br/>OSM/CARTO, nanti Google Maps]
+        E3[Peta<br/>ubin OSM, produksi: penyedia berlisensi]
     end
     Apps --> BE
     BE --> Data
@@ -50,7 +50,7 @@ Prinsip desain:
 | Bagian | Teknologi |
 | --- | --- |
 | UI | React 18 + TypeScript, Vite |
-| Peta | Leaflet + React-Leaflet, ubin OpenStreetMap/CARTO |
+| Peta | Leaflet + React-Leaflet, ubin OpenStreetMap (bisa diganti lewat `VITE_TILE_URL`) |
 | QR tebus | qrcode.react |
 | Android | Capacitor 6 (APK dibangun di GitHub Actions) |
 | Windows | Electron 33 + electron-builder (installer NSIS dan portable) |
