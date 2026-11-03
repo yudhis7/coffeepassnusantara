@@ -1,0 +1,99 @@
+name: Build aplikasi (Android + Windows)
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+    paths:
+      - 'app/**'
+      - '.github/workflows/build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+jobs:
+  android:
+    name: Android APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Install dependencies
+        run: npm ci
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      - name: Build web app
+        run: npm run build
+      - name: Sync Capacitor
+        run: npx cap sync android
+      - name: Build APK (debug)
+        working-directory: app/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+          VERSION=$(node -p "require('../package.json').version")
+          mkdir -p ../release
+          cp app/build/outputs/apk/debug/app-debug.apk ../release/KopiPass-Nusantara-${VERSION}-android.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kopipass-android
+          path: app/release/*.apk
+
+  windows:
+    name: Windows installer
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Build web app + installer
+        run: npm run dist:win
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kopipass-windows
+          path: app/release/*.exe
+
+  release:
+    name: GitHub Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [android, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+          body: |
+            Prototipe KopiPass Nusantara.
+            - **Android:** unduh file `.apk`, buka di ponsel, izinkan "Instal dari sumber tidak dikenal".
+            - **Windows:** `Setup` untuk instalasi biasa, `Portable` untuk langsung jalan tanpa instal.
+            Panduan lengkap: docs/USER_GUIDE.md
