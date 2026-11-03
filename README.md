@@ -111,11 +111,7 @@ npm run dev            # versi web di http://localhost:5173
 | Android APK | `npm run android:sync` lalu `cd android && ./gradlew assembleDebug` | Android SDK + Java 17 |
 | Screenshot panduan | `npm run build && npm run screenshots` | Playwright Chromium |
 
-Tanpa menyiapkan apa pun di komputer, GitHub Actions membangun APK dan installer Windows setiap ada perubahan di folder `app/`. Untuk membuat rilis baru, buat tag versi:
-
-```bash
-git tag v0.1.1 && git push origin v0.1.1
-```
+Tanpa menyiapkan apa pun di komputer, GitHub Actions membangun APK dan installer Windows setiap ada perubahan di folder `app/`. Untuk membuat rilis baru, naikkan `version` di `app/package.json` (misalnya `0.1.1`) lalu push ke `main`. Rilis beserta file APK dan installer dibuat otomatis. Push tag `v*` juga memicu rilis.
 
 ## Roadmap singkat
 

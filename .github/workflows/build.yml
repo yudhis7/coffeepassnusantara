@@ -80,16 +80,37 @@ jobs:
 
   release:
     name: GitHub Release
-    if: startsWith(github.ref, 'refs/tags/v')
+    # Rilis otomatis: saat push tag v*, atau saat push ke main dengan versi baru di app/package.json
+    # (jika rilis untuk versi itu belum ada).
+    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main'
     needs: [android, windows]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - name: Tentukan versi
+        id: ver
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(node -p "require('./app/package.json').version")
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "Rilis v$VERSION sudah ada, dilewati."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/download-artifact@v4
+        if: steps.ver.outputs.skip == 'false'
         with:
           path: dist
           merge-multiple: true
       - uses: softprops/action-gh-release@v2
+        if: steps.ver.outputs.skip == 'false'
         with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: KopiPass Nusantara ${{ steps.ver.outputs.tag }}
           files: dist/*
           generate_release_notes: true
           body: |
