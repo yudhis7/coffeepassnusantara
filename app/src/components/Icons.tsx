@@ -73,7 +73,32 @@ export const IconLeaf = (p: P) => (
   <svg {...base(p)}><path d="M5 19c0-8 5-14 15-15-1 10-7 15-15 15ZM5 19l7-7" /></svg>
 );
 
-export const Logo = ({ size = 32 }: { size?: number }) => (
+export const IconHeart = ({ filled, ...p }: P & { filled?: boolean }) => (
+  <svg {...base(p)} fill={filled ? 'currentColor' : 'none'}><path d="M12 20s-7-4.4-9-9a4.8 4.8 0 0 1 9-3 4.8 4.8 0 0 1 9 3c-2 4.6-9 9-9 9Z" /></svg>
+);
+export const IconTag = (p: P) => (
+  <svg {...base(p)}><path d="M3 12V4h8l10 10-8 8L3 12Z" /><circle cx="7.5" cy="8.5" r="1.5" /></svg>
+);
+export const IconHome = (p: P) => (
+  <svg {...base(p)}><path d="M3 11 12 4l9 7v9h-6v-6H9v6H3v-9Z" /></svg>
+);
+export const IconGift = (p: P) => (
+  <svg {...base(p)}><rect x="3" y="8" width="18" height="5" rx="1" /><path d="M5 13v8h14v-8M12 8v13M12 8S10.5 3 7.5 4 9 8 12 8Zm0 0s1.5-5 4.5-4S15 8 12 8Z" /></svg>
+);
+export const IconMegaphone = (p: P) => (
+  <svg {...base(p)}><path d="M3 10v4h4l9 5V5L7 10H3ZM19 9a4 4 0 0 1 0 6M7 14l1.5 6H11" /></svg>
+);
+export const IconUsers = (p: P) => (
+  <svg {...base(p)}><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20c.8-3.4 3.3-5.5 6.5-5.5s5.7 2.1 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.5 3.5 5.2" /></svg>
+);
+export const IconSparkle = (p: P) => (
+  <svg {...base(p)}><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6" /></svg>
+);
+export const IconBean = (p: P) => (
+  <svg {...base(p)}><ellipse cx="12" cy="12" rx="6.5" ry="9" transform="rotate(35 12 12)" /><path d="M8.5 18.5c1.5-3 1-5 3.5-6.5s3.5-3.5 3.5-6.5" /></svg>
+);
+
+export const Logo =({ size = 32 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden>
     <rect width="64" height="64" rx="16" fill="#3b2a20" />
     <path d="M16 26h26v9a11 11 0 0 1-11 11h-4a11 11 0 0 1-11-11v-9Z" fill="#f6efe6" />

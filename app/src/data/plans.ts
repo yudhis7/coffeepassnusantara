@@ -14,6 +14,14 @@ export const PLANS: Plan[] = [
 ];
 
 export const PAYOUT_PER_CUP = 14500;
+export const REFERRAL_BONUS = 20000; // bonus untuk kedai per pelanggan baru yang berlangganan lewat kedai itu (usulan)
+
+// Level member per kedai, dihitung dari jumlah cup yang ditebus di kedai tersebut
+export const LEVELS = [
+  { name: 'Pengunjung', min: 0 },
+  { name: 'Langganan', min: 5 },
+  { name: 'Sahabat Kedai', min: 15 },
+];
 export const MAX_CUPS_PER_DAY = 2;
 export const OUTLET_COOLDOWN_HOURS = 3;
 export const ROLLOVER_MAX = 3;

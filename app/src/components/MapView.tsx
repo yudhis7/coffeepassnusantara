@@ -13,10 +13,10 @@ const TILE_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 // Pin kedai: divIcon berbentuk tetes dengan ikon cangkir (tanpa file gambar eksternal)
-const pinIcon = (active: boolean, open: boolean) =>
+const pinIcon = (active: boolean, open: boolean, home: boolean, promo: boolean) =>
   L.divIcon({
     className: '',
-    html: `<div class="pin ${active ? 'pin-active' : ''} ${open ? '' : 'pin-closed'}">
+    html: `<div class="pin ${active ? 'pin-active' : ''} ${open ? '' : 'pin-closed'} ${home ? 'pin-home' : ''}">${promo ? '<span class="pin-dot"></span>' : ''}
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/></svg>
     </div>`,
     iconSize: [34, 42],
@@ -54,7 +54,7 @@ function InvalidateOnResize() {
 }
 
 interface Props {
-  outlets: (Outlet & { openNow: boolean })[];
+  outlets: (Outlet & { openNow: boolean; home?: boolean; promo?: boolean })[];
   selectedId: string | null;
   onSelect: (id: string) => void;
   userPos: [number, number] | null;
@@ -76,7 +76,7 @@ export default function MapView({ outlets, selectedId, onSelect, userPos, flyTar
         <Marker
           key={o.id}
           position={[o.lat, o.lng]}
-          icon={pinIcon(o.id === selectedId, o.openNow)}
+          icon={pinIcon(o.id === selectedId, o.openNow, !!o.home, !!o.promo)}
           eventHandlers={{ click: () => onSelect(o.id) }}
           zIndexOffset={o.id === selectedId ? 1000 : 0}
         >

@@ -5,20 +5,19 @@ import { rupiah } from '../data/plans';
 import { IconStar, IconCup } from '../components/Icons';
 import RatingModal from '../components/RatingModal';
 
-export default function History() {
+export default function History({ embedded }: { embedded?: boolean }) {
   const s = useStore();
   const [ratingFor, setRatingFor] = useState<string | null>(null);
   const list = [...s.redemptions].sort((a, b) => b.at.localeCompare(a.at));
   const saved = list.reduce((sum, r) => {
     const o = getOutlet(r.outletId);
-    const price = o?.menu.find((m) => m.id === r.menuItemId)?.price ?? 0;
-    return sum + price;
+    return sum + (o?.menu.find((m) => m.id === r.menuItemId)?.price ?? 0);
   }, 0);
   const visited = new Set(list.map((r) => r.outletId)).size;
 
   return (
-    <div className="page narrow" data-testid="history">
-      <h2>Riwayat tebus</h2>
+    <div className={embedded ? '' : 'page narrow'} data-testid="history">
+      <h3>Riwayat tebus</h3>
       <div className="stat-row">
         <div><b>{list.length}</b><span>cup ditebus</span></div>
         <div><b>{visited}</b><span>kedai dijelajahi</span></div>
@@ -37,7 +36,10 @@ export default function History() {
               <div>
                 <b>{mi?.name}</b>
                 <span className="muted">{o?.name}</span>
-                <span className="muted small">{d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' })} · {d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
+                <span className="muted small">
+                  {d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' })} · {d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                  {' · '}+{r.stamps ?? 1} stempel{r.scoped ? ' · cup bonus' : ''}{r.rewardUsed ? ' · hadiah' : ''}
+                </span>
               </div>
               {r.rating ? (
                 <span className="rating"><IconStar size={14} filled /> {r.rating}{r.tags?.length ? <em> · {r.tags.join(', ')}</em> : null}</span>

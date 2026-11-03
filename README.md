@@ -30,13 +30,13 @@ KopiPass Nusantara adalah langganan bulanan berisi kuota cup kopi yang bisa dite
 ## Tampilan aplikasi
 
 <p align="center">
-  <img src="docs/images/06-home-map.png" width="200" alt="Peta kedai">
-  <img src="docs/images/08-outlet-detail.png" width="200" alt="Detail kedai">
-  <img src="docs/images/09-redeem-qr.png" width="200" alt="QR tebus">
-  <img src="docs/images/17-mitra-report.png" width="200" alt="Laporan mitra">
+  <img src="docs/images/01-welcome.png" width="200" alt="Halaman awal Coffee Culture Indonesia">
+  <img src="docs/images/04-promo-popup.png" width="200" alt="Pop-up promo dari kedai">
+  <img src="docs/images/15-kedaiku-stamps.png" width="200" alt="Kedai andalan, stempel, dan level">
+  <img src="docs/images/21-mitra-promo-form.png" width="200" alt="Mitra membuat promo">
 </p>
 <p align="center">
-  <img src="docs/images/19-desktop-map.png" width="820" alt="Tampilan Windows">
+  <img src="docs/images/26-desktop-map.png" width="820" alt="Tampilan Windows">
 </p>
 
 ## Unduh
@@ -56,24 +56,27 @@ Cara memasang dan memakai aplikasi ada di **[Panduan Pengguna](docs/USER_GUIDE.m
 ## Fitur prototipe
 
 **Pelanggan**
-- Daftar dengan nomor WhatsApp + OTP
-- Pilih paket (Hemat, Harian, Harian Plus) dan metode autodebit
-- Peta kedai mitra dengan pin, lokasi pengguna, pencarian, dan filter (buka sekarang, rasa, kurang manis, colokan, Wi-Fi, tenang)
-- Detail kedai dan daftar menu inti
+- Halaman awal berisi nilai KopiPass sebagai *coffee culture* Indonesia; jelajah kedai dulu, paket dipilih belakangan
+- **Kedai andalan**: berlangganan lewat kedai tertentu, stempel ganda, level member per kedai (Pengunjung → Langganan → Sahabat Kedai), dan cup bonus khusus kedai
+- Kartu stempel per kedai dengan hadiah yang diatur kedai
+- Peta kedai mitra dengan pin (andalan, promo, tutup), lokasi pengguna, strip promo, pencarian, dan filter (promo, favorit, buka sekarang, rasa, kurang manis, colokan, Wi-Fi, tenang)
+- Pop-up promo dari kedai, tab Promo, klaim promo, dan kedai favorit
 - QR + kode tebus dinamis yang berganti setiap 30 detik
 - Rating rasa, riwayat tebus, pause/batal langganan
 
-**Mitra (kasir kedai)**
+**Mitra (kasir dan pemilik kedai)**
 - Masuk dengan PIN staf per kedai
-- Konfirmasi tebus dengan validasi lengkap (kode, kuota, batas harian, jeda per kedai, kuota harian kedai)
-- Laporan harian/mingguan dan estimasi payout
-- Atur kuota harian dan matikan sementara penerimaan KopiPass
+- Konfirmasi tebus dengan panel pelanggan: level, badge andalan, cup bonus, hadiah stempel, dan promo yang diklaim
+- **Promo kedai**: bonus langganan lewat kedai, diskon member, jam sepi stempel ganda, upgrade gratis; bisa tampil sebagai pop-up, lengkap dengan pratinjau dan statistik
+- Daftar pelanggan andalan, pelanggan yang direkrut kedai, dan sebaran level
+- Laporan harian/mingguan, estimasi payout (termasuk cup bonus dan bonus rekrut)
+- Atur kuota harian, kartu stempel kedai, dan matikan sementara penerimaan KopiPass
 
 ## Dokumentasi
 
 | Dokumen | Isi |
 | --- | --- |
-| [docs/SOP.md](docs/SOP.md) | SOP dan workflow operasional: onboarding kedai, tebus, payout, kualitas, fraud, CS |
+| [docs/SOP.md](docs/SOP.md) | SOP dan workflow operasional: onboarding kedai, tebus, payout, kualitas, fraud, CS, promo mitra, kedai andalan |
 | [docs/USER_GUIDE.md](docs/USER_GUIDE.md) | Panduan pengguna bergambar untuk pelanggan dan mitra |
 | [docs/FRAMEWORK.md](docs/FRAMEWORK.md) | Arsitektur target, model data, pemetaan prototipe ke API |
 | [CONTRIBUTORS.md](CONTRIBUTORS.md) | Penggagas dan kontributor |

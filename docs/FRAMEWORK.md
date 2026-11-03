@@ -67,6 +67,11 @@ Prinsip desain:
 | `createToken` | `POST /redeem/token` | Token sekali pakai 30 detik, ditandatangani server |
 | `confirmRedeem` | `POST /redeem/confirm` | Validasi lengkap + tulis `redemption` dan ledger `-1` |
 | `rate` | `POST /redemptions/{id}/rating` | |
+| `setHomeOutlet`, `toggleFavorite` | `PUT /me/home-outlet`, `POST /me/favorites` | Kedai andalan dan favorit |
+| `claimPromo`, `markPopupSeen` | `POST /promos/{id}/claim`, `POST /promos/{id}/seen` | Klaim promo dan catat tayangan pop-up |
+| `customerContext` | `GET /redeem/context?code=` | Panel pelanggan di kasir: level, andalan, stempel, promo |
+| `savePromo`, `togglePromoActive`, `deletePromo` | `POST/PATCH/DELETE /merchant/promos` | Promo kedai (melalui tinjauan Ops) |
+| `setLoyalty` | `PUT /outlets/{id}/loyalty` | Aturan kartu stempel |
 | `mitraLogin` | `POST /auth/staff` | PIN staf per gerai |
 | `setOutletCap`, `toggleOutletPause` | `PATCH /outlets/{id}/settings` | |
 | `outletToday`, `outletWeek` | `GET /merchant/summary` | Estimasi payout mingguan |
@@ -83,6 +88,12 @@ Prinsip desain:
 | `redemption` | id, user_id, outlet_id, menu_item_id, staff_id, token_id, payout_amount, status |
 | `payout` | id, merchant_id, periode, total_cup, total_amount, status |
 | `rating` | id, redemption_id, skor, tag |
+| `home_outlet` | user_id, outlet_id, sejak (kedai andalan, satu per pelanggan) |
+| `promo` | id, outlet_id, jenis, judul, deskripsi, audiens, pop_up, aktif, berlaku_sampai, bonus_cup, jam_mulai, jam_selesai |
+| `promo_claim` | id, promo_id, user_id, diklaim_pada, dipakai_pada, redemption_id |
+| `loyalty_rule` | outlet_id, stempel_per_hadiah, hadiah |
+
+Kolom tambahan v0.2: `quota_ledger.outlet_id` (cup bonus khusus kedai, tanpa payout), `redemption.stamps`, `redemption.payout_amount`, `redemption.reward_used`, `redemption.promo_id`, `subscription.via_outlet_id` (kedai perekrut, dasar bonus rekrut).
 
 ## Langkah berikutnya
 

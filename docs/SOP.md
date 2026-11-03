@@ -1,6 +1,6 @@
 # SOP & Workflow Operasional KopiPass Nusantara
 
-Versi 0.1 · November 2026 · Pemilik dokumen: **yudhis7** (Project Ideation & Lead)
+Versi 0.2 · November 2026 · Pemilik dokumen: **yudhis7** (Project Ideation & Lead)
 
 Dokumen ini mengatur cara kerja harian KopiPass selama fase pilot di Jakarta Selatan: merekrut kedai, melayani pelanggan, menebus cup di kasir, membayar kedai, menjaga kualitas, dan menangani kecurangan. Setiap SOP berisi pemicu, langkah, penanggung jawab, dan batas waktu (SLA).
 
@@ -18,7 +18,9 @@ Dokumen ini mengatur cara kerja harian KopiPass selama fase pilot di Jakarta Sel
 10. [SOP-08 Tagihan gagal, pause, dan pembatalan](#sop-08-tagihan-gagal-pause-dan-pembatalan)
 11. [SOP-09 Offboarding kedai mitra](#sop-09-offboarding-kedai-mitra)
 12. [SOP-10 Rapat dan laporan KPI mingguan](#sop-10-rapat-dan-laporan-kpi-mingguan)
-13. [Lampiran: parameter operasional](#lampiran-parameter-operasional)
+13. [SOP-11 Promo mitra dan pop-up](#sop-11-promo-mitra-dan-pop-up)
+14. [SOP-12 Kedai andalan, kartu stempel, dan cup bonus](#sop-12-kedai-andalan-kartu-stempel-dan-cup-bonus)
+15. [Lampiran: parameter operasional](#lampiran-parameter-operasional)
 
 ---
 
@@ -44,6 +46,8 @@ Matriks RACI ringkas (R = mengerjakan, A = bertanggung jawab akhir, C = dikonsul
 | Mystery shopper | I | R/A | – | – | – | I |
 | Review fraud | A | R | C | C | R | I |
 | Refund & kompensasi | C | C | R/A | R | – | – |
+| Review promo mitra | A | R | I | C | – | R |
+| Hadiah stempel & cup bonus | I | C | C | R | C | R/A |
 
 ---
 
@@ -56,7 +60,9 @@ flowchart LR
     A -->|tunjukkan QR / kode| C[Kasir kedai mitra]
     C -->|validasi di aplikasi mitra| B
     C -->|sajikan menu inti| A
-    B -->|payout Rp14.500 per cup<br/>setiap Senin| D[Pemilik kedai]
+    B -->|payout Rp14.500 per cup<br/>+ bonus rekrut, setiap Senin| D[Pemilik kedai]
+    D -.->|promo, pop-up,<br/>hadiah stempel| A
+    A -.->|pilih kedai andalan| D
     A -->|rating rasa| B
     B -->|laporan & rating| D
 ```
@@ -131,11 +137,13 @@ flowchart TD
 
 **Penanggung jawab:** sistem (otomatis), CS untuk kendala.
 
-1. Pelanggan mengunduh aplikasi, mengisi nama dan nomor WhatsApp, lalu memverifikasi OTP.
-2. Pelanggan memilih paket: Hemat (10 cup, Rp179.000), Harian (22 cup, Rp349.000), atau Harian Plus (30 cup, Rp449.000).
-3. Pelanggan memilih metode autodebit (GoPay, OVO, DANA, atau kartu) dan menyetujui syarat.
-4. Setelah pembayaran berhasil, sistem mengaktifkan langganan dan menambahkan kuota.
-5. Sistem mengirim pesan sambutan berisi cara menebus dan 3 kedai terdekat.
+1. Pelanggan mengunduh aplikasi, membaca nilai KopiPass di halaman awal, mengisi nama dan nomor WhatsApp, lalu memverifikasi OTP.
+2. Pelanggan langsung bisa **menjelajah tanpa berlangganan**: melihat peta kedai, menyimpan favorit, dan mengklaim promo.
+3. Langganan dimulai dari salah satu pintu: tombol **Mulai langganan**, tab **Tebus**, tombol **Langganan lewat kedai ini** di kartu kedai, atau pop-up promo kedai.
+4. Pelanggan memilih paket: Hemat (10 cup, Rp179.000), Harian (22 cup, Rp349.000), atau Harian Plus (30 cup, Rp449.000), dan **boleh memilih kedai andalan** (opsional, lihat SOP-12).
+5. Pelanggan memilih metode autodebit (GoPay, OVO, DANA, atau kartu) dan menyetujui syarat.
+6. Setelah pembayaran berhasil, sistem mengaktifkan langganan, menambahkan kuota umum, dan bila ada promo langganan dari kedai andalan, menambahkan **cup bonus kedai**.
+7. Sistem mengirim pesan sambutan berisi cara menebus, kedai andalan, dan 3 kedai terdekat.
 
 **Aturan yang harus dijelaskan ke pelanggan:** maksimal 2 cup per hari; 1 cup per kedai setiap 3 jam; sisa kuota maksimal 3 cup dibawa ke periode berikutnya; satu akun untuk satu orang dan satu perangkat.
 
@@ -176,10 +184,14 @@ sequenceDiagram
 1. Sapa pelanggan dan tanyakan menu. Pastikan menu yang dipilih adalah **menu inti** KopiPass.
 2. Minta pelanggan membuka tab **Tebus** di aplikasinya.
 3. Di aplikasi mitra, ketik 6 digit kode di bawah QR (atau pindai QR bila fitur kamera sudah aktif).
-4. Pilih menu inti yang dipesan, lalu tekan **Konfirmasi**.
-5. Tunggu tanda centang hijau "Berhasil". Baru setelah itu buat minuman.
-6. Tambahan (size up, extra shot, pastry, menu non-inti) ditagih langsung dengan harga normal lewat kasir kedai.
-7. Buat minuman dengan resep dan ukuran yang **sama persis** dengan pembeli biasa.
+4. Baca **panel pelanggan** yang muncul setelah kode diketik: nama, level member di kedai ini, badge **Andalan**, sisa cup bonus kedai, hadiah stempel, dan promo yang sudah diklaim.
+    - Jika hadiah stempel siap dan pelanggan memintanya, centang **Berikan hadiah stempel** dan siapkan hadiahnya (ditanggung kedai).
+    - Jika pelanggan menunjukkan promo yang sudah diklaim, centang **Terapkan promo** dan berikan potongan/item sesuai promo.
+    - Pelanggan berbadge **Andalan** atau level **Sahabat Kedai** disapa dengan nama: merekalah inti pelanggan setia kedai.
+5. Pilih menu inti yang dipesan, lalu tekan **Konfirmasi**.
+6. Tunggu tanda centang hijau "Berhasil". Baru setelah itu buat minuman.
+7. Tambahan (size up, extra shot, pastry, menu non-inti) ditagih langsung dengan harga normal lewat kasir kedai, dikurangi promo bila diterapkan.
+8. Buat minuman dengan resep dan ukuran yang **sama persis** dengan pembeli biasa.
 
 **Pesan error dan tindakan**
 
@@ -189,6 +201,7 @@ sequenceDiagram
 | Kode sudah kedaluwarsa | Kode berlaku 30 detik | Minta pelanggan menunggu kode baru, ketik ulang |
 | Kode ini sudah dipakai | Kode sudah ditebus | Jangan layani gratis; minta kode baru |
 | Kuota cup bulan ini sudah habis | Kuota pelanggan nol | Tawarkan bayar normal |
+| Kuota umum habis. Cup bonus pelanggan hanya berlaku di kedai lain | Pelanggan hanya punya cup bonus dari kedai lain | Tawarkan bayar normal |
 | Batas 2 cup per hari sudah tercapai | Batas harian pelanggan | Tawarkan bayar normal |
 | Sudah menebus di kedai ini dalam 3 jam terakhir | Aturan jeda per kedai | Tawarkan bayar normal |
 | Kuota harian KopiPass kedai ini sudah penuh | Kuota kedai habis | Tawarkan bayar normal; pemilik bisa menambah kuota di Pengaturan |
@@ -215,7 +228,10 @@ flowchart LR
 
 **Langkah**
 
-1. **Rekap otomatis (Senin 00.00).** Sistem menghitung jumlah tebus sah per kedai × Rp14.500.
+1. **Rekap otomatis (Senin 00.00).** Sistem menghitung per kedai:
+    - tebus dari kuota umum × Rp14.500;
+    - tebus dari **cup bonus kedai** × Rp0 (cup bonus ditanggung kedai pemberinya, lihat SOP-12);
+    - **bonus rekrut** Rp20.000 untuk setiap pelanggan baru yang berlangganan lewat kedai tersebut pada pekan itu (usulan, berlaku setelah pelanggan lolos masa refund 3 hari).
 2. **Cek fraud (Senin 09.00).** Baris tebus yang ditandai ditahan dan diselesaikan lewat SOP-06 dalam 5 hari kerja. Payout yang ditahan dibayarkan pekan berikutnya jika dinyatakan sah.
 3. **Rekonsiliasi (Senin 10.00).** Finance mencocokkan total payout dengan jumlah tebus di database dan memastikan rekening tujuan tidak berubah tanpa verifikasi.
 4. **Persetujuan.** Project Lead menyetujui rekap di konsol admin.
@@ -339,6 +355,84 @@ flowchart LR
 
 ---
 
+## SOP-11 Promo mitra dan pop-up
+
+**Tujuan:** memberi kedai alat untuk menarik pelanggan berlangganan lewat kedainya, mengisi jam sepi, dan merawat pelanggan andalan, tanpa merusak pengalaman pelanggan.
+**Penanggung jawab:** pemilik kedai (membuat), Partnership & Ops (meninjau), Project Lead (menyetujui pengecualian). **SLA tinjauan:** ≤ 1 hari kerja.
+
+```mermaid
+flowchart LR
+    A[Pemilik kedai buat promo<br/>di tab Promo aplikasi mitra] --> B{Lolos tinjauan Ops?}
+    B -- Tidak --> C[Kembalikan dengan catatan<br/>perbaikan]
+    C --> A
+    B -- Ya --> D[Promo tayang:<br/>kartu kedai, tab Promo,<br/>strip promo di peta]
+    D --> E{Pop-up aktif?}
+    E -- Ya --> F[Pop-up tampil sekali<br/>per pelanggan saat buka aplikasi]
+    E -- Tidak --> G[Pelanggan klaim promo]
+    F --> G
+    G --> H[Barista centang<br/>Terapkan promo saat tebus]
+    H --> I[Statistik dilihat/diklaim<br/>di aplikasi mitra]
+```
+
+**Jenis promo yang tersedia**
+
+| Jenis | Cara kerja | Siapa yang menanggung |
+| --- | --- | --- |
+| Bonus langganan lewat kedai | Pelanggan baru yang berlangganan lewat kedai mendapat 1–5 cup bonus yang hanya bisa ditebus di kedai itu; kedai otomatis menjadi kedai andalannya | Kedai (cup bonus tanpa payout) |
+| Diskon tambahan member | Diskon untuk pembelian tambahan (pastry, biji kopi, menu non-inti) | Kedai |
+| Jam sepi: stempel ganda | Tebus pada jam yang dipilih memberi stempel tambahan | Kedai (hadiah stempel lebih cepat tercapai) |
+| Upgrade / item gratis | Size up, oat milk, extra shot, atau item kecil saat menebus | Kedai |
+
+**Aturan promo**
+
+1. Promo ditanggung kedai. KopiPass tidak mengubah payout Rp14.500 untuk cup dari kuota umum.
+2. Promo tidak boleh menurunkan standar minuman inti (ukuran, resep, kualitas).
+3. Judul maksimal 60 karakter dan deskripsi maksimal 200 karakter, jelas, tanpa klaim berlebihan, dengan tanggal berakhir.
+4. **Maksimal 1 pop-up aktif per kedai.** Aplikasi menampilkan paling banyak 1 pop-up per sesi pelanggan, dengan prioritas kedai andalan, lalu kedai favorit.
+5. Bonus langganan maksimal 5 cup per pelanggan dan hanya untuk pelanggan baru.
+6. Promo untuk "pelanggan andalan" hanya terlihat bisa diklaim oleh pelanggan yang menjadikan kedai itu kedai andalan.
+
+**Langkah tinjauan Ops**
+
+1. Cek kesesuaian isi dengan aturan di atas dan kesanggupan kedai menanggung promo selama periode berlaku.
+2. Untuk bonus langganan, pastikan kedai memahami bahwa cup bonus **tidak dibayar** KopiPass.
+3. Setujui, atau kembalikan dengan catatan. Promo yang disetujui tayang otomatis.
+4. Pantau mingguan: promo dengan banyak keluhan atau rasio klaim/dipakai yang janggal dinonaktifkan dan dibahas dengan kedai.
+
+---
+
+## SOP-12 Kedai andalan, kartu stempel, dan cup bonus
+
+**Tujuan:** mengikat pelanggan ke kedai tertentu sehingga kedai mendapat pelanggan tetap dan pelanggan merasa dikenali.
+**Penanggung jawab:** sistem (perhitungan), barista (pemberian hadiah), Finance (cup bonus dan bonus rekrut di payout).
+
+**Mekanisme**
+
+| Mekanisme | Aturan |
+| --- | --- |
+| Kedai andalan | Satu per pelanggan. Dipilih saat berlangganan, dari kartu kedai, atau otomatis saat berlangganan lewat promo kedai. Bisa diganti dari tab Kedaiku. |
+| Kartu stempel | Ada di setiap kedai. Tebus biasa = 1 stempel; di kedai andalan = 2 stempel; jam sepi promo = +1 stempel. Jumlah stempel per hadiah (2–20) dan hadiahnya diatur kedai. |
+| Level member per kedai | Dihitung dari jumlah cup di kedai itu: Pengunjung (0–4), Langganan (5–14), Sahabat Kedai (15+). Tampil di aplikasi pelanggan dan di panel kasir. |
+| Cup bonus kedai | Dari promo bonus langganan. Hanya bisa ditebus di kedai pemberinya, dipakai lebih dulu daripada kuota umum saat menebus di sana, tanpa payout. Hangus jika langganan berakhir. |
+| Bonus rekrut | Kedai menerima Rp20.000 per pelanggan baru yang berlangganan lewat kedainya (usulan), dibayar bersama payout mingguan. |
+
+**Langkah barista saat hadiah stempel siap**
+
+1. Panel pelanggan menampilkan "Berikan hadiah stempel: [hadiah]".
+2. Tanyakan apakah pelanggan ingin memakai hadiahnya sekarang.
+3. Jika ya, centang kotaknya sebelum menekan **Konfirmasi**, lalu berikan hadiah.
+4. Stempel berkurang sesuai target; stempel sisa tetap tersimpan.
+
+**Kendala umum**
+
+| Masalah | Tindakan |
+| --- | --- |
+| Pelanggan ingin ganti kedai andalan | Bisa dari tab Kedaiku. Stempel dan level di kedai lama tetap tersimpan; cup bonus tetap hanya berlaku di kedai pemberinya. |
+| Pelanggan merasa stempel kurang | CS cek riwayat tebus (stempel tercatat per transaksi) dan beri kompensasi stempel bila ada kesalahan sistem. |
+| Kedai ingin mengubah hadiah | Ubah di Atur → Kartu stempel. Perubahan berlaku untuk stempel berikutnya; hadiah yang sudah siap tetap dihormati. |
+
+---
+
 ## Lampiran: parameter operasional
 
 | Parameter | Nilai pilot |
@@ -352,5 +446,10 @@ flowchart LR
 | Jadwal payout | Rekap Senin 00.00, transfer paling lambat Selasa |
 | Mystery shopper | 1 kali per kedai per bulan |
 | Jam CS | 07.00–21.00 WIB |
+| Cup bonus kedai | Payout Rp0, hanya di kedai pemberi, maks. 5 cup per pelanggan baru |
+| Bonus rekrut kedai | Rp20.000 per pelanggan baru via kedai (usulan) |
+| Stempel per tebus | 1; kedai andalan 2; jam sepi promo +1 |
+| Level member | Pengunjung 0–4, Langganan 5–14, Sahabat Kedai 15+ cup |
+| Pop-up promo | Maks. 1 aktif per kedai; maks. 1 tampil per sesi pelanggan |
 
 Semua angka adalah asumsi pilot dan dapat diubah oleh Project Lead berdasarkan data.

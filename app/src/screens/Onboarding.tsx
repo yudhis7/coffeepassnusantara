@@ -1,7 +1,18 @@
 import { useState } from 'react';
-import { Logo, IconMap, IconQr, IconLeaf, IconBack } from '../components/Icons';
+import { Logo, IconStore, IconBean, IconHome, IconTag, IconLeaf, IconBack } from '../components/Icons';
 import { login, setRole } from '../store';
 import { DEMO_OTP } from '../data/plans';
+import { OUTLETS } from '../data/outlets';
+
+const VALUES = [
+  { icon: <IconStore />, title: 'Dukung kedai lokal', text: 'Setiap cup yang kamu tebus dibayar langsung ke kedai kopi independen di sekitarmu.' },
+  { icon: <IconBean />, title: 'Jelajahi rasa Nusantara', text: 'Gayo, Toraja, Kintamani, Flores. Temukan kedai sesuai profil rasa favoritmu.' },
+  { icon: <IconHome />, title: 'Punya kedai andalan', text: 'Kumpulkan stempel, naik level, dan dapat perlakuan khusus dari kedai pilihanmu.' },
+  { icon: <IconTag />, title: 'Promo langsung dari kedai', text: 'Cup bonus, diskon pastry, dan jam stempel ganda khusus member.' },
+  { icon: <IconLeaf />, title: 'Lebih hemat setiap hari', text: 'Kopi harian hingga 40% lebih murah dari harga menu.' },
+];
+
+const ORIGINS = ['Gayo', 'Toraja', 'Kintamani', 'Flores Bajawa', 'Java Preanger'];
 
 export default function Onboarding() {
   const [step, setStep] = useState<'welcome' | 'phone' | 'otp'>('welcome');
@@ -9,22 +20,36 @@ export default function Onboarding() {
   const [name, setName] = useState('');
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
+  const areas = new Set(OUTLETS.map((o) => o.area)).size;
 
   if (step === 'welcome') {
     return (
-      <div className="onboard" data-testid="welcome">
+      <div className="onboard welcome" data-testid="welcome">
         <div className="onboard-hero">
-          <Logo size={72} />
+          <Logo size={68} />
+          <p className="eyebrow center">Coffee Culture Indonesia</p>
           <h1>KopiPass Nusantara</h1>
-          <p className="lead">Satu langganan, ratusan kedai lokal, kopi harian lebih hemat.</p>
+          <p className="lead">Satu kartu untuk merayakan budaya ngopi kita: dari kedai lokal, untuk penikmat kopi Indonesia.</p>
+          <div className="origin-row" aria-label="Asal kopi">
+            {ORIGINS.map((o) => <span key={o} className="origin">{o}</span>)}
+          </div>
         </div>
-        <ul className="feature-list">
-          <li><span className="feat-ic"><IconMap /></span><div><b>Temukan kedai mitra</b><span>Peta kedai dengan filter rasa, manis, dan tempat kerja.</span></div></li>
-          <li><span className="feat-ic"><IconQr /></span><div><b>Tunjukkan QR, selesai</b><span>Tebus cup di kasir dalam hitungan detik.</span></div></li>
-          <li><span className="feat-ic"><IconLeaf /></span><div><b>Hemat hingga 40%</b><span>Harga per cup lebih murah dari harga menu.</span></div></li>
+        <ul className="value-list">
+          {VALUES.map((v) => (
+            <li key={v.title}>
+              <span className="feat-ic">{v.icon}</span>
+              <div><b>{v.title}</b><span>{v.text}</span></div>
+            </li>
+          ))}
         </ul>
+        <div className="welcome-stats">
+          <div><b>{OUTLETS.length}</b><span>kedai mitra</span></div>
+          <div><b>{areas}</b><span>area</span></div>
+          <div><b>±40%</b><span>lebih hemat</span></div>
+        </div>
         <div className="onboard-actions">
-          <button className="btn btn-primary btn-block" data-testid="btn-start" onClick={() => setStep('phone')}>Mulai</button>
+          <button className="btn btn-primary btn-block" data-testid="btn-start" onClick={() => setStep('phone')}>Mulai jelajah</button>
+          <p className="hint center">Jelajahi kedai dulu, pilih paket langganan nanti.</p>
           <button className="btn btn-ghost btn-block" data-testid="btn-to-mitra" onClick={() => setRole('mitra')}>Saya pemilik / barista kedai mitra</button>
         </div>
       </div>
